@@ -16,7 +16,7 @@ class Game extends Sprite {
   public function new() {
     super();
     circle = new Quad(100, 100, Color.RED);
-    background = new Quad(1280, 720, Color.WHITE);
+    background = new Quad(10000, 10000, Color.WHITE);
     hud = new Quad(200, 200, Color.BLUE);
     borders = new Array();
     addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
