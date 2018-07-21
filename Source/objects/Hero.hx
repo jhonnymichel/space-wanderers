@@ -7,7 +7,6 @@ import starling.utils.Color;
 import objects.camera.ICameraTarget;
 
 class Hero extends Sprite implements ICameraTarget {
-
   var circle:Quad;
   function new() {
     super();
