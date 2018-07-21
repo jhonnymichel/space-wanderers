@@ -3,7 +3,6 @@
 
 	<meta title="StarWanderers" package="com.sample.starwanderers" version="1.0.0" company="Company Name" />
 	<app main="Main" path="Export" file="StarWanderers" />
-
 	<source path="Source" />
 
 	<haxelib name="openfl" />
