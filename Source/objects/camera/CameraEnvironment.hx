@@ -11,7 +11,7 @@ class CameraEnvironment extends Sprite implements ICameraEnvironment {
   }
 
   public function getBoundaries():Rectangle {
-    return getBounds(this);
+    return new Rectangle(x, y, width, height);
   }
 
   public function getStageBoundaries():Rectangle {

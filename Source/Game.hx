@@ -24,7 +24,6 @@ class Game extends CameraEnvironment {
     background = new Quad(10000, 10000, Color.WHITE);
     hud = new Quad(200, 200, Color.BLUE);
     borders = new Array();
-    cast
     camera = new Camera(cast(this, ICameraEnvironment), cast(circle, ICameraTarget));
     addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
   }
