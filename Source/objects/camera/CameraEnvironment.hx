@@ -18,8 +18,13 @@ class CameraEnvironment extends Sprite implements ICameraEnvironment {
     return new Rectangle(stage.x, stage.y, stage.stageWidth, stage.stageHeight);
   }
 
+  public function setPosition(position:Point):Void {
+    x = position.x;
+    y = position.y;
+  }
+
   public function setOffset(offset:Point):Void {
-    x = offset.x;
-    y = offset.y;
+    x += offset.x;
+    y += offset.y;
   }
 }

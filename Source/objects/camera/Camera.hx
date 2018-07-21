@@ -26,20 +26,20 @@ class Camera {
     var targetPosition:Point = _target.getPosition();
     var defaultOffset:Point = _getDefaultOffset();
     var stage:Rectangle = _enviroment.getStageBoundaries();
-    var currentOffset:Rectangle = _enviroment.getBoundaries();
-    var finalPosition:Point = new Point(
+    var currentPosition:Rectangle = _enviroment.getBoundaries();
+    var newPosition:Point = new Point(
       defaultOffset.x - (defaultOffset.x - (stage.width * 0.5) + targetPosition.x),
       defaultOffset.y - (defaultOffset.y - (stage.height * 0.5) + targetPosition.y)
     );
 
-    var newOffset:Point = new Point(
-      finalPosition.x - currentOffset.x,
-      finalPosition.y - currentOffset.y
+    var offset:Point = new Point(
+      newPosition.x - currentPosition.x,
+      newPosition.y - currentPosition.y
     );
 
     _enviroment.setOffset(new Point(
-      currentOffset.x + (newOffset.x / 8),
-      currentOffset.y + (newOffset.y / 8)
+      offset.x / 8,
+      offset.y / 8
     ));
   }
 }
