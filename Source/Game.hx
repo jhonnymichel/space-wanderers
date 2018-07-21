@@ -1,33 +1,44 @@
 package;
 
-import starling.display.Sprite;
 import starling.display.Quad;
-import openfl.events.Event;
 import starling.events.Event;
+import starling.events.EnterFrameEvent;
 import starling.utils.Color;
+import objects.Hero;
+import objects.camera.ICameraEnvironment;
+import objects.camera.CameraEnvironment;
+import objects.camera.ICameraTarget;
+import objects.camera.Camera;
 
-class Game extends Sprite {
+class Game extends CameraEnvironment {
 
-  private var circle:Quad;
+  private var circle:Hero;
   private var hud:Quad;
   private var background:Quad;
   private var borders:Array<Quad>;
+  private var camera:Camera;
 
   public function new() {
     super();
-    circle = new Quad(100, 100, Color.RED);
+    circle = new Hero();
     background = new Quad(10000, 10000, Color.WHITE);
     hud = new Quad(200, 200, Color.BLUE);
     borders = new Array();
+    cast
+    camera = new Camera(cast(this, ICameraEnvironment), cast(circle, ICameraTarget));
     addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
   }
 
+  private function update(e:Event):Void {
+    camera.update();
+  }
+
   private function onAddedToStage(e:Event):Void {
+    addEventListener(EnterFrameEvent.ENTER_FRAME, update);
     addChild(background);
     addChild(circle);
-    circle.alignPivot();
-    circle.x = width / 2;
-    circle.y = height / 2;
+    circle.x = 100;
+    circle.y = 0;
     trace (width, height);
     for (i in 0...4) {
       var border:Quad = null;
@@ -64,9 +75,6 @@ class Game extends Sprite {
   }
 
   public function setupScreen(e:Event = null) {
-    x = (stage.stageWidth - width) / 2;
-    y = (stage.stageHeight - height) / 2;
-
     hud.y = stage.stageHeight;
   }
 
