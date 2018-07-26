@@ -3,12 +3,15 @@ package;
 import starling.display.Quad;
 import starling.events.Event;
 import starling.events.EnterFrameEvent;
+import starling.textures.Texture;
 import starling.utils.Color;
+import starling.display.Image;
 import objects.Hero;
 import objects.camera.ICameraEnvironment;
 import objects.camera.CameraEnvironment;
 import objects.camera.ICameraTarget;
 import objects.camera.Camera;
+import openfl.Assets;
 
 class Game extends CameraEnvironment {
 
@@ -17,6 +20,7 @@ class Game extends CameraEnvironment {
   private var background:Quad;
   private var borders:Array<Quad>;
   private var camera:Camera;
+  private var backgroundImage:Texture;
 
   public function new() {
     super();
@@ -71,6 +75,9 @@ class Game extends CameraEnvironment {
     hud.y = stage.stageHeight;
     hud.alignPivot('left',  'bottom');
     stage.addChild(hud);
+
+    backgroundImage = Texture.fromBitmapData(Assets.getBitmapData('assets/backgroundjpg.jpg'));
+    stage.addChild(new Image(backgroundImage));
   }
 
   public function setupScreen(e:Event = null) {
