@@ -24,12 +24,29 @@ class CameraEnvironment extends Sprite implements ICameraEnvironment {
   public function setPosition(position:Point):Void {
     x = position.x;
     y = position.y;
+    adjustTrespassing();
     parallaxes.update(getBoundaries());
+  }
+
+  private function adjustTrespassing() {
+    if (x > 0) {
+      x = 0;
+    }
+    if (y > 0) {
+      y = 0;
+    }
+    if (x < -width + stage.width) {
+      x = -width + stage.width;
+    }
+    if (y < -height + stage.height) {
+      y = -height + stage.height;
+    }
   }
 
   public function setOffset(offset:Point):Void {
     x += offset.x;
     y += offset.y;
+    adjustTrespassing();
     parallaxes.update(getBoundaries());
   }
 }
