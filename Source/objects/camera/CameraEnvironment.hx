@@ -10,7 +10,7 @@ class CameraEnvironment extends Sprite implements ICameraEnvironment {
 
   function new() {
     super();
-    parallaxes = new ParallaxeManager(addChild, getBoundaries());
+    parallaxes = new ParallaxeManager();
   }
 
   public function getBoundaries():Rectangle {
@@ -24,12 +24,12 @@ class CameraEnvironment extends Sprite implements ICameraEnvironment {
   public function setPosition(position:Point):Void {
     x = position.x;
     y = position.y;
-    parallaxes.update(position);
+    parallaxes.update(getBoundaries());
   }
 
   public function setOffset(offset:Point):Void {
     x += offset.x;
     y += offset.y;
-    parallaxes.update(offset);
+    parallaxes.update(getBoundaries());
   }
 }

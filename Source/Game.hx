@@ -26,6 +26,7 @@ class Game extends CameraEnvironment {
     super();
     circle = new Hero();
     background = new Quad(10000, 10000, Color.WHITE);
+    background.alpha = 0;
     hud = new Quad(200, 200, Color.BLUE);
     borders = new Array();
     camera = new Camera(cast(this, ICameraEnvironment), cast(circle, ICameraTarget));
@@ -38,10 +39,12 @@ class Game extends CameraEnvironment {
 
   private function onAddedToStage(e:Event):Void {
     addEventListener(EnterFrameEvent.ENTER_FRAME, update);
+    stage.addChild(parallaxes);
+    stage.addChild(this);
     addChild(background);
     addChild(circle);
-    circle.x = 100;
-    circle.y = 0;
+    circle.x = 1000;
+    circle.y = 500;
     trace (width, height);
     for (i in 0...4) {
       var border:Quad = null;
@@ -77,7 +80,10 @@ class Game extends CameraEnvironment {
     stage.addChild(hud);
 
     backgroundImage = Texture.fromBitmapData(Assets.getBitmapData('assets/backgroundjpg.jpg'));
-    stage.addChild(new Image(backgroundImage));
+    var parallaxe = new Image(backgroundImage);
+    parallaxe.width = 2000;
+    parallaxe.height = 2000;
+    parallaxes.add(parallaxe);
   }
 
   public function setupScreen(e:Event = null) {

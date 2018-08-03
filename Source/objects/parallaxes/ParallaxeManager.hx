@@ -1,25 +1,23 @@
 package objects.parallaxes;
 
+import starling.display.DisplayObject;
 import starling.display.Sprite;
 import openfl.geom.Point;
 import openfl.geom.Rectangle;
 
-class ParallaxeManager {
-  private var parallaxeList:Array<Sprite>;
-  private var addToParent:Sprite->Void;
-  private var _parentArea:Rectangle;
+class ParallaxeManager extends Sprite {
+  private var parallaxeList:Array<DisplayObject>;
 
-  public function new(addChild:Sprite->Void, parentArea:Rectangle) {
-    parallaxeList = new Array<Sprite>();
-    addToParent = addChild;
-    _parentArea = parentArea;
+  public function new():Void {
+    super();
+    parallaxeList = new Array<DisplayObject>();
   }
 
-  private function getArea(sprite:Sprite) {
+  private function getArea(sprite:DisplayObject):Float {
     return sprite.x * sprite.y;
   }
 
-  public function add(p:Sprite) {
+  public function add(p:DisplayObject):Void {
     parallaxeList.push(p);
     parallaxeList.sort(function(a, b) {
       if (getArea(a) > getArea(b)) {
@@ -32,16 +30,14 @@ class ParallaxeManager {
     });
 
     for (parallaxe in parallaxeList) {
-      addToParent(parallaxe);
+      addChild(parallaxe);
     }
   }
 
-  public function update(position:Point) {
-    var posX = position.x / _parentArea.width;
-    var posY = position.y / _parentArea.height;
+  public function update(boundaries:Rectangle):Void {
     for (parallaxe in parallaxeList) {
-      parallaxe.x = parallaxe.width * posX;
-      parallaxe.y = parallaxe.height * posY;
+      parallaxe.x = boundaries.x * (parallaxe.width / boundaries.width);
+      parallaxe.y = boundaries.y * (parallaxe.height / boundaries.height);
     }
   }
 }
