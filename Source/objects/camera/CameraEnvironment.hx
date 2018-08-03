@@ -3,11 +3,14 @@ package objects.camera;
 import openfl.geom.Point;
 import openfl.geom.Rectangle;
 import starling.display.Sprite;
+import objects.parallaxes.ParallaxeManager;
 
 class CameraEnvironment extends Sprite implements ICameraEnvironment {
+  public var parallaxes (default, null):ParallaxeManager;
 
   function new() {
     super();
+    parallaxes = new ParallaxeManager(addChild, getBoundaries());
   }
 
   public function getBoundaries():Rectangle {
@@ -21,10 +24,12 @@ class CameraEnvironment extends Sprite implements ICameraEnvironment {
   public function setPosition(position:Point):Void {
     x = position.x;
     y = position.y;
+    parallaxes.update(position);
   }
 
   public function setOffset(offset:Point):Void {
     x += offset.x;
     y += offset.y;
+    parallaxes.update(offset);
   }
 }
