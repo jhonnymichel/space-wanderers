@@ -35,11 +35,11 @@ class CameraEnvironment extends Sprite implements ICameraEnvironment {
     if (y > 0) {
       y = 0;
     }
-    if (x < -width + stage.width) {
-      x = -width + stage.width;
+    if (x < -width + stage.stageWidth) {
+      x = -width + stage.stageWidth;
     }
-    if (y < -height + stage.height) {
-      y = -height + stage.height;
+    if (y < -height + stage.stageHeight) {
+      y = -height + stage.stageHeight;
     }
   }
 

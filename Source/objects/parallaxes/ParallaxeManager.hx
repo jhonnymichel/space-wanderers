@@ -36,8 +36,8 @@ class ParallaxeManager extends Sprite {
 
   public function update(boundaries:Rectangle):Void {
     for (parallaxe in parallaxeList) {
-      parallaxe.x = boundaries.x * (parallaxe.width / boundaries.width);
-      parallaxe.y = boundaries.y * (parallaxe.height / boundaries.height);
+      parallaxe.x = boundaries.x * (parallaxe.width / boundaries.width / 10);
+      parallaxe.y = boundaries.y * (parallaxe.height / boundaries.height / 10);
     }
   }
 }
