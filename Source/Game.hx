@@ -12,8 +12,6 @@ import objects.camera.CameraEnvironment;
 import objects.camera.ICameraTarget;
 import objects.camera.Camera;
 import openfl.Assets;
-import starling.events.KeyboardEvent;
-import openfl.ui.Keyboard;
 
 class Game extends CameraEnvironment {
 
@@ -37,27 +35,12 @@ class Game extends CameraEnvironment {
   }
 
   private function update(e:Event):Void {
+    circle.update();
     camera.update();
-    switch (movement) {
-        case Keyboard.UP:
-          circle.y -= 20;
-        case Keyboard.DOWN:
-          circle.y += 20;
-        case Keyboard.LEFT:
-          circle.x -= 20;
-        case Keyboard.RIGHT:
-          circle.x += 20;
-      }
   }
 
   private function onAddedToStage(e:Event):Void {
     addEventListener(EnterFrameEvent.ENTER_FRAME, update);
-    stage.addEventListener(KeyboardEvent.KEY_DOWN, function(e:KeyboardEvent) {
-      movement = e.keyCode;
-    });
-    stage.addEventListener(KeyboardEvent.KEY_UP, function(e:KeyboardEvent) {
-      movement = 0;
-    });
     stage.addChild(parallaxes);
     stage.addChild(this);
     addChild(background);
