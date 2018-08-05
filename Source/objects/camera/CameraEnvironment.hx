@@ -7,14 +7,18 @@ import objects.parallaxes.ParallaxeManager;
 
 class CameraEnvironment extends Sprite implements ICameraEnvironment {
   public var parallaxes (default, null):ParallaxeManager;
+  private var playableWidth:Int;
+  private var playableHeight:Int;
 
-  function new() {
+  function new(width:Int, height:Int) {
     super();
+    playableWidth = width;
+    playableHeight = height;
     parallaxes = new ParallaxeManager();
   }
 
   public function getBoundaries():Rectangle {
-    return new Rectangle(x, y, width, height);
+    return new Rectangle(x, y, playableWidth, playableHeight);
   }
 
   public function getStageBoundaries():Rectangle {
@@ -35,11 +39,11 @@ class CameraEnvironment extends Sprite implements ICameraEnvironment {
     if (y > 0) {
       y = 0;
     }
-    if (x < -width + stage.stageWidth) {
-      x = -width + stage.stageWidth;
+    if (x < -playableWidth+ stage.stageWidth) {
+      x = (-playableWidth+ stage.stageWidth);
     }
-    if (y < -height + stage.stageHeight) {
-      y = -height + stage.stageHeight;
+    if (y < -playableHeight + stage.stageHeight) {
+      y = -playableHeight + stage.stageHeight;
     }
   }
 

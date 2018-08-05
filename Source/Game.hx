@@ -26,7 +26,7 @@ class Game extends CameraEnvironment {
   private var movement:Float;
 
   public function new() {
-    super();
+    super(10000, 10000);
     circle = new Hero();
     background = new Quad(10000, 10000, Color.WHITE);
     background.alpha = 0;
