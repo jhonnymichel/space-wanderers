@@ -18,6 +18,12 @@ class Hero extends Sprite implements ICameraTarget {
     Keyboard.LEFT => false
   ];
 
+  private static var INITIAL_ROTATION:Float = (Math.PI / 2);
+  private static var TURN_RATE:Float = (5 * Math.PI / 180);
+  private static var MAX_SPEED:Float = 30;
+  private static var ACCEL_RATE:Float = .25;
+  private static var DECEL_RATE:Float = .5;
+
   function new() {
     super();
     circle = new Quad(30, 100, Color.RED);
@@ -50,14 +56,14 @@ class Hero extends Sprite implements ICameraTarget {
   }
 
   public function update():Void {
-    if (movement[Keyboard.LEFT]) rotation -= 5 * Math.PI / 180;
-    if (movement[Keyboard.RIGHT]) rotation += 5 * Math.PI / 180;
+    if (movement[Keyboard.LEFT]) rotation -= Hero.TURN_RATE;
+    if (movement[Keyboard.RIGHT]) rotation += Hero.TURN_RATE;
     accel = movement[Keyboard.UP]
-      ? Math.min(30, accel + .25)
-      : Math.max(0, accel - .5);
+      ? Math.min(Hero.MAX_SPEED, accel + Hero.ACCEL_RATE)
+      : Math.max(0, accel - Hero.DECEL_RATE);
 
-    x += Math.cos(rotation - Math.PI / 2) * accel;
-    y += Math.sin(rotation - Math.PI / 2) * accel;
+    x += Math.cos(rotation - Hero.INITIAL_ROTATION) * accel;
+    y += Math.sin(rotation - Hero.INITIAL_ROTATION) * accel;
   }
 
   public function getPosition():Point {
