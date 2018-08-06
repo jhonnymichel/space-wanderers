@@ -11,12 +11,13 @@ import objects.camera.ICameraEnvironment;
 import objects.camera.CameraEnvironment;
 import objects.camera.ICameraTarget;
 import objects.camera.Camera;
+import objects.ui.Minimap;
 import openfl.Assets;
 
 class Game extends CameraEnvironment {
 
   private var circle:Hero;
-  private var hud:Quad;
+  private var minimap:Minimap;
   private var background:Quad;
   private var borders:Array<Quad>;
   private var camera:Camera;
@@ -24,19 +25,36 @@ class Game extends CameraEnvironment {
   private var movement:Float;
 
   public function new() {
-    super(10000, 10000);
+    super(20000, 15000);
     circle = new Hero();
-    background = new Quad(10000, 10000, Color.WHITE);
+    background = new Quad(20000, 15000, Color.WHITE);
     background.alpha = 0;
-    hud = new Quad(200, 200, Color.BLUE);
     borders = new Array();
     camera = new Camera(cast(this, ICameraEnvironment), cast(circle, ICameraTarget));
+    minimap = new Minimap(cast(circle, ICameraTarget), cast(this, ICameraEnvironment));
     addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
   }
 
   private function update(e:Event):Void {
     circle.update();
     camera.update();
+    minimap.update();
+
+    if (circle.x < circle.height / 2) {
+      circle.x = circle.height / 2;
+    }
+
+    if (circle.y < circle.height / 2) {
+      circle.y = circle.height / 2;
+    }
+
+    if (circle.x > playableWidth - circle.height / 2) {
+      circle.x = playableWidth - circle.height / 2;
+    }
+
+    if (circle.y > playableHeight - circle.height / 2) {
+      circle.y = playableHeight - circle.height / 2;
+    }
   }
 
   private function onAddedToStage(e:Event):Void {
@@ -76,20 +94,20 @@ class Game extends CameraEnvironment {
       }
     }
 
-    hud.x = 0;
-    hud.y = stage.stageHeight;
-    hud.alignPivot('left',  'bottom');
-    stage.addChild(hud);
+    minimap.x = 0;
+    minimap.y = stage.stageHeight;
+    minimap.alignPivot('left',  'bottom');
+    stage.addChild(minimap);
 
     backgroundImage = Texture.fromBitmapData(Assets.getBitmapData('assets/backgroundjpg.jpg'));
     var parallaxe = new Image(backgroundImage);
     parallaxe.width = 2000;
-    parallaxe.height = 2000;
+    parallaxe.height = 1500;
     parallaxes.add(parallaxe);
   }
 
   public function setupScreen(e:Event = null) {
-    hud.y = stage.stageHeight;
+    minimap.y = stage.stageHeight;
   }
 
 }
