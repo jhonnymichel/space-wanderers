@@ -16,6 +16,7 @@ import objects.ui.Minimap;
 import objects.parallaxes.Parallax;
 import openfl.Assets;
 import openfl.geom.Point;
+import starling.core.Starling;
 
 class Game extends CameraEnvironment {
 
@@ -26,6 +27,7 @@ class Game extends CameraEnvironment {
   private var camera:Camera;
   private var backgroundImage:Texture;
   private var movement:Float;
+  private var clouds:Array<Image>;
 
   public function new() {
     super(20000, 15000);
@@ -42,6 +44,27 @@ class Game extends CameraEnvironment {
     circle.update();
     camera.update();
     minimap.update();
+
+    for (cloud in clouds) {
+      var deltaY:Float = circle.y - cloud.y; // This is length of the opposite side of the triangle
+      var deltaX:Float = circle.x - cloud.x; // This is length of the adjacent side of the triangle
+      var distance:Float =
+        Math.sqrt((deltaX * deltaX) + (deltaY * deltaY)) -
+        Math.max(cloud.width / 2, cloud.height / 2);
+
+      var visibleArea:Float = Math.max(
+        Starling.current.viewPort.width * Starling.current.contentScaleFactor,
+        Starling.current.viewPort.height * Starling.current.contentScaleFactor
+      );
+
+
+      if (distance <= visibleArea) {
+        addChild(cloud);
+        addChild(circle);
+      } else {
+        removeChild(cloud);
+      }
+    }
 
     if (circle.x < circle.height / 2) {
       circle.x = circle.height / 2;
@@ -107,13 +130,15 @@ class Game extends CameraEnvironment {
     var cloud3:Texture = Texture.fromBitmapData(Assets.getBitmapData('assets/cloud3.png'));
     var textures:Array<Texture> = [cloud1, cloud2, cloud3];
     var floor:Sprite = new Sprite();
-    for (i in 0...3) {
-      for (j in 0...3) {
+    clouds = new Array<Image>();
+    for (i in 0...9) {
+      for (j in 0...9) {
         var cloudTexture:Texture = textures[Math.floor(Math.random() * 2)];
         var cloud:Image = new Image(cloudTexture);
+        cloud.alignPivot();
         cloud.x = (i * 2000) + Math.random() * (i * 2000 + 2000);
         cloud.y = (j * 1500) + Math.random() * (i * 1500 + 1500);
-        addChild(cloud);
+        clouds.push(cloud);
       }
     }
 
