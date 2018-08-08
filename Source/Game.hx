@@ -6,6 +6,7 @@ import starling.events.EnterFrameEvent;
 import starling.textures.Texture;
 import starling.utils.Color;
 import starling.display.Image;
+import starling.display.Sprite;
 import objects.Hero;
 import objects.camera.ICameraEnvironment;
 import objects.camera.CameraEnvironment;
@@ -62,7 +63,6 @@ class Game extends CameraEnvironment {
     stage.addChild(parallaxes);
     stage.addChild(this);
     addChild(background);
-    addChild(circle);
     circle.x = 10000 - 100;
     circle.y = 10000 - 100;
     trace (width, height);
@@ -100,7 +100,25 @@ class Game extends CameraEnvironment {
     stage.addChild(minimap);
 
     backgroundImage = Texture.fromBitmapData(Assets.getBitmapData('assets/backgroundjpg.jpg'));
-    var parallaxe = new Image(backgroundImage);
+    var cloud1:Texture = Texture.fromBitmapData(Assets.getBitmapData('assets/cloud.png'));
+    var cloud2:Texture = Texture.fromBitmapData(Assets.getBitmapData('assets/cloud2.png'));
+    var cloud3:Texture = Texture.fromBitmapData(Assets.getBitmapData('assets/cloud3.png'));
+    var parallaxe:Image = new Image(backgroundImage);
+    var textures:Array<Texture> = [cloud1, cloud2, cloud3];
+    var floor:Sprite = new Sprite();
+    for (i in 0...9) {
+      for (j in 0...9) {
+        var cloudTexture:Texture = textures[Math.floor(Math.random() * 2)];
+        var cloud:Image = new Image(cloudTexture);
+        cloud.x = (i * 2000) + Math.random() * (i * 2000 + 2000);
+        cloud.y = (j * 1500) + Math.random() * (i * 1500 + 1500);
+        addChild(cloud);
+      }
+    }
+
+
+    addChild(circle);
+
     parallaxe.width = 2000;
     parallaxe.height = 1500;
     parallaxes.add(parallaxe);
