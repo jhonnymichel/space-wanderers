@@ -14,6 +14,7 @@ import objects.camera.ICameraTarget;
 import objects.camera.Camera;
 import objects.ui.Minimap;
 import openfl.Assets;
+import openfl.geom.Point;
 
 class Game extends CameraEnvironment {
 
@@ -121,7 +122,7 @@ class Game extends CameraEnvironment {
 
     parallaxe.width = 2000;
     parallaxe.height = 1500;
-    parallaxes.add(parallaxe);
+    parallaxes.add(parallaxe, 10, new Point(0, 0));
   }
 
   public function setupScreen(e:Event = null) {

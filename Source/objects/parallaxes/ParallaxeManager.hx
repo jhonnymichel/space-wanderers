@@ -6,23 +6,27 @@ import openfl.geom.Point;
 import openfl.geom.Rectangle;
 
 class ParallaxeManager extends Sprite {
-  private var parallaxeList:Array<DisplayObject>;
+  private var parallaxeList:Array<Dynamic>;
 
   public function new():Void {
     super();
-    parallaxeList = new Array<DisplayObject>();
+    parallaxeList = new Array<Dynamic>();
   }
 
   private function getArea(sprite:DisplayObject):Float {
     return sprite.x * sprite.y;
   }
 
-  public function add(p:DisplayObject):Void {
-    parallaxeList.push(p);
+  public function add(p:DisplayObject, speed:Float, initialPos:Point):Void {
+    parallaxeList.push({
+      object: p,
+      speed: speed,
+      initialPosition: initialPos,
+    });
     parallaxeList.sort(function(a, b) {
-      if (getArea(a) > getArea(b)) {
+      if (a.speed > b.speed) {
         return 1;
-      } else if (getArea(a) < getArea(b)) {
+      } else if (a.speed < b.speed) {
         return 1;
       }
 
@@ -30,14 +34,14 @@ class ParallaxeManager extends Sprite {
     });
 
     for (parallaxe in parallaxeList) {
-      addChild(parallaxe);
+      addChild(parallaxe.object);
     }
   }
 
   public function update(boundaries:Rectangle):Void {
     for (parallaxe in parallaxeList) {
-      parallaxe.x = boundaries.x * (parallaxe.width / boundaries.width / 10);
-      parallaxe.y = boundaries.y * (parallaxe.height / boundaries.height / 10);
+      parallaxe.object.x = parallaxe.initialPosition.x + boundaries.x / parallaxe.speed;
+      parallaxe.object.y = parallaxe.initialPosition.y + boundaries.y / parallaxe.speed;
     }
   }
 }
