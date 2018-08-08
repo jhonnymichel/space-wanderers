@@ -13,6 +13,7 @@ import objects.camera.CameraEnvironment;
 import objects.camera.ICameraTarget;
 import objects.camera.Camera;
 import objects.ui.Minimap;
+import objects.parallaxes.Parallax;
 import openfl.Assets;
 import openfl.geom.Point;
 
@@ -104,11 +105,10 @@ class Game extends CameraEnvironment {
     var cloud1:Texture = Texture.fromBitmapData(Assets.getBitmapData('assets/cloud.png'));
     var cloud2:Texture = Texture.fromBitmapData(Assets.getBitmapData('assets/cloud2.png'));
     var cloud3:Texture = Texture.fromBitmapData(Assets.getBitmapData('assets/cloud3.png'));
-    var parallaxe:Image = new Image(backgroundImage);
     var textures:Array<Texture> = [cloud1, cloud2, cloud3];
     var floor:Sprite = new Sprite();
-    for (i in 0...9) {
-      for (j in 0...9) {
+    for (i in 0...3) {
+      for (j in 0...3) {
         var cloudTexture:Texture = textures[Math.floor(Math.random() * 2)];
         var cloud:Image = new Image(cloudTexture);
         cloud.x = (i * 2000) + Math.random() * (i * 2000 + 2000);
@@ -119,10 +119,12 @@ class Game extends CameraEnvironment {
 
 
     addChild(circle);
-
-    parallaxe.width = 2000;
-    parallaxe.height = 1500;
-    parallaxes.add(parallaxe, 10, new Point(0, 0));
+    var parallaxe:Parallax = new Parallax(100, new Point(0, 0));
+    var bg:Image = new Image(backgroundImage);
+    bg.width = 2000;
+    bg.height = 1500;
+    parallaxe.addChild(bg);
+    parallaxes.add(parallaxe);
   }
 
   public function setupScreen(e:Event = null) {
