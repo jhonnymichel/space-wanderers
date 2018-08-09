@@ -14,6 +14,7 @@ import objects.camera.ICameraTarget;
 import objects.camera.Camera;
 import objects.ui.Minimap;
 import objects.parallaxes.Parallax;
+import objects.parallaxes.ParallaxeManager;
 import openfl.Assets;
 import openfl.geom.Point;
 import starling.core.Starling;
@@ -28,6 +29,7 @@ class Game extends CameraEnvironment {
   private var backgroundImage:Texture;
   private var movement:Float;
   private var clouds:Array<Image>;
+  private var upperParallaxes:ParallaxeManager;
 
   public function new() {
     super(20000, 15000);
@@ -44,27 +46,7 @@ class Game extends CameraEnvironment {
     circle.update();
     camera.update();
     minimap.update();
-
-    for (cloud in clouds) {
-      var deltaY:Float = circle.y - cloud.y; // This is length of the opposite side of the triangle
-      var deltaX:Float = circle.x - cloud.x; // This is length of the adjacent side of the triangle
-      var distance:Float =
-        Math.sqrt((deltaX * deltaX) + (deltaY * deltaY)) -
-        Math.max(cloud.width / 2, cloud.height / 2);
-
-      var visibleArea:Float = Math.max(
-        Starling.current.viewPort.width * Starling.current.contentScaleFactor,
-        Starling.current.viewPort.height * Starling.current.contentScaleFactor
-      );
-
-
-      if (distance <= visibleArea) {
-        addChild(cloud);
-        addChild(circle);
-      } else {
-        removeChild(cloud);
-      }
-    }
+    upperParallaxes.update(getBoundaries());
 
     if (circle.x < circle.height / 2) {
       circle.x = circle.height / 2;
@@ -129,21 +111,58 @@ class Game extends CameraEnvironment {
     var cloud2:Texture = Texture.fromBitmapData(Assets.getBitmapData('assets/cloud2.png'));
     var cloud3:Texture = Texture.fromBitmapData(Assets.getBitmapData('assets/cloud3.png'));
     var textures:Array<Texture> = [cloud1, cloud2, cloud3];
-    var floor:Sprite = new Sprite();
-    clouds = new Array<Image>();
-    for (i in 0...9) {
-      for (j in 0...9) {
+
+    for (i in 0...10) {
+      for (j in 0...10) {
         var cloudTexture:Texture = textures[Math.floor(Math.random() * 2)];
-        var cloud:Image = new Image(cloudTexture);
-        cloud.alignPivot();
-        cloud.x = (i * 2000) + Math.random() * (i * 2000 + 2000);
-        cloud.y = (j * 1500) + Math.random() * (i * 1500 + 1500);
-        clouds.push(cloud);
+        var position:Point = new Point(
+          (i * 1000) + Math.random() * (i * 2000 + 2000),
+          (j * 750) + Math.random() * (i * 1500 + 1500)
+        );
+        var distance:Int = 2 + Math.ceil(Math.random() * 10);
+        var cloud:Parallax = new Parallax(distance, position);
+        cloud.alpha = 3 / distance;
+        cloud.addChild(new Image(cloudTexture));
+        parallaxes.add(cloud);
+      }
+    }
+
+    for (i in 0...10) {
+      for (j in 0...10) {
+        var cloudTexture:Texture = textures[Math.floor(Math.random() * 2)];
+        var position:Point = new Point(
+          (i * 1000) + Math.random() * (i * 2000 + 2000),
+          (j * 750) + Math.random() * (i * 1500 + 1500)
+        );
+        var distance:Int = 1;
+        var cloud:Parallax = new Parallax(distance, position);
+        cloud.alpha = 2 / distance;
+        cloud.addChild(new Image(cloudTexture));
+        parallaxes.add(cloud);
+      }
+    }
+
+    upperParallaxes = new ParallaxeManager();
+
+    for (i in 0...10) {
+      for (j in 0...10) {
+        var cloudTexture:Texture = textures[Math.floor(Math.random() * 2)];
+        var position:Point = new Point(
+          (i * 1000) + Math.random() * (i * 2000 + 2000),
+          (j * 750) + Math.random() * (i * 1500 + 1500)
+        );
+        var distance:Float = Math.random();
+        var cloud:Parallax = new Parallax(distance, position);
+        cloud.alpha = .6 + distance;
+        cloud.addChild(new Image(cloudTexture));
+        upperParallaxes.add(cloud);
       }
     }
 
 
     addChild(circle);
+    stage.addChild(upperParallaxes);
+
     var parallaxe:Parallax = new Parallax(100, new Point(0, 0));
     var bg:Image = new Image(backgroundImage);
     bg.width = 2000;
