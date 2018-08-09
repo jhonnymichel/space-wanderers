@@ -151,9 +151,9 @@ class Game extends CameraEnvironment {
           (i * 1000) + Math.random() * (i * 2000 + 2000),
           (j * 750) + Math.random() * (i * 1500 + 1500)
         );
-        var distance:Float = Math.random();
+        var distance:Float = .8 + Math.random();
         var cloud:Parallax = new Parallax(distance, position);
-        cloud.alpha = .6 + distance;
+        cloud.alpha = distance * 0.5;
         cloud.addChild(new Image(cloudTexture));
         upperParallaxes.add(cloud);
       }
