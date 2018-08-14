@@ -12,6 +12,8 @@ import objects.camera.ICameraTarget;
 class Hero extends Sprite implements ICameraTarget {
   private var circle:Quad;
   private var accel:Float = 0;
+  private var inertiaX:Float = 0;
+  private var inertiaY:Float = 0;
   private var movement:Map<Int, Bool> = [
     Keyboard.UP => false,
     Keyboard.RIGHT => false,
@@ -22,7 +24,7 @@ class Hero extends Sprite implements ICameraTarget {
   private static var TURN_RATE:Float = (5 * Math.PI / 180);
   private static var MAX_SPEED:Float = 30;
   private static var ACCEL_RATE:Float = .25;
-  private static var DECEL_RATE:Float = .5;
+  private static var DECEL_RATE:Float = .01;
 
   function new() {
     super();
@@ -61,9 +63,10 @@ class Hero extends Sprite implements ICameraTarget {
     accel = movement[Keyboard.UP]
       ? Math.min(Hero.MAX_SPEED, accel + Hero.ACCEL_RATE)
       : Math.max(0, accel - Hero.DECEL_RATE);
-
-    x += Math.cos(rotation - Hero.INITIAL_ROTATION) * accel;
-    y += Math.sin(rotation - Hero.INITIAL_ROTATION) * accel;
+    inertiaX += (Math.cos(rotation - Hero.INITIAL_ROTATION) - inertiaX) / 512;
+    inertiaY += (Math.sin(rotation - Hero.INITIAL_ROTATION) - inertiaY) / 512;
+    x += inertiaX * accel;
+    y += inertiaY * accel;
   }
 
   public function getPosition():Point {
