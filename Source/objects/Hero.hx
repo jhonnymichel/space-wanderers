@@ -24,7 +24,8 @@ class Hero extends Sprite implements ICameraTarget {
   private static var TURN_RATE:Float = (5 * Math.PI / 180);
   private static var MAX_SPEED:Float = 30;
   private static var ACCEL_RATE:Float = .25;
-  private static var DECEL_RATE:Float = .01;
+  private static var DECEL_RATE:Float = .05;
+  private static var INERTIA_RATE:Float = Math.pow(2, 6);
 
   function new() {
     super();
@@ -63,8 +64,8 @@ class Hero extends Sprite implements ICameraTarget {
     accel = movement[Keyboard.UP]
       ? Math.min(Hero.MAX_SPEED, accel + Hero.ACCEL_RATE)
       : Math.max(0, accel - Hero.DECEL_RATE);
-    inertiaX += (Math.cos(rotation - Hero.INITIAL_ROTATION) - inertiaX) / 512;
-    inertiaY += (Math.sin(rotation - Hero.INITIAL_ROTATION) - inertiaY) / 512;
+    inertiaX += (Math.cos(rotation - Hero.INITIAL_ROTATION) - inertiaX) / INERTIA_RATE;
+    inertiaY += (Math.sin(rotation - Hero.INITIAL_ROTATION) - inertiaY) / INERTIA_RATE;
     x += inertiaX * accel;
     y += inertiaY * accel;
   }
