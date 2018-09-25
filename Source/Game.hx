@@ -13,8 +13,8 @@ import objects.camera.CameraEnvironment;
 import objects.camera.ICameraTarget;
 import objects.camera.Camera;
 import objects.ui.Minimap;
-import objects.parallaxes.Parallax;
-import objects.parallaxes.ParallaxeManager;
+import objects.parallax.Parallax;
+import objects.parallax.ParallaxManager;
 import openfl.Assets;
 import openfl.geom.Point;
 import starling.core.Starling;
@@ -29,7 +29,7 @@ class Game extends CameraEnvironment {
   private var backgroundImage:Texture;
   private var movement:Float;
   private var clouds:Array<Image>;
-  private var upperParallaxes:ParallaxeManager;
+  private var upperParallaxes:ParallaxManager;
 
   public function new() {
     super(20000, 15000);
@@ -142,7 +142,7 @@ class Game extends CameraEnvironment {
       }
     }
 
-    upperParallaxes = new ParallaxeManager();
+    upperParallaxes = new ParallaxManager();
 
     for (i in 0...10) {
       for (j in 0...10) {

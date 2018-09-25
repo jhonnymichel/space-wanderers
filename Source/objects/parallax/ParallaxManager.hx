@@ -1,4 +1,4 @@
-package objects.parallaxes;
+package objects.parallax;
 
 import starling.display.DisplayObject;
 import starling.display.Stage;
@@ -6,9 +6,9 @@ import starling.display.Sprite;
 import starling.core.Starling;
 import openfl.geom.Point;
 import openfl.geom.Rectangle;
-import objects.parallaxes.Parallax;
+import objects.parallax.Parallax;
 
-class ParallaxeManager extends Sprite {
+class ParallaxManager extends Sprite {
   private var parallaxeList:Array<Parallax>;
   private var localPoint:Point;
   private var parallaxStagePoint:Point;

@@ -1,4 +1,4 @@
-package objects.parallaxes;
+package objects.parallax;
 
 import starling.display.Sprite;
 import openfl.geom.Point;

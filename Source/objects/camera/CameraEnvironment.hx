@@ -3,10 +3,10 @@ package objects.camera;
 import openfl.geom.Point;
 import openfl.geom.Rectangle;
 import starling.display.Sprite;
-import objects.parallaxes.ParallaxeManager;
+import objects.parallax.ParallaxManager;
 
 class CameraEnvironment extends Sprite implements ICameraEnvironment {
-  public var parallaxes (default, null):ParallaxeManager;
+  public var parallaxes (default, null):ParallaxManager;
   private var playableWidth:Int;
   private var playableHeight:Int;
 
@@ -14,7 +14,7 @@ class CameraEnvironment extends Sprite implements ICameraEnvironment {
     super();
     playableWidth = width;
     playableHeight = height;
-    parallaxes = new ParallaxeManager();
+    parallaxes = new ParallaxManager();
   }
 
   public function getBoundaries():Rectangle {
