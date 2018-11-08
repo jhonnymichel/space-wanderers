@@ -1,7 +1,6 @@
-package objects.performance;
+package objects.core;
 
 import starling.core.Starling;
-import starling.display.Stage;
 import starling.events.EnterFrameEvent;
 import openfl.Lib.getTimer;
 
@@ -11,16 +10,13 @@ class FPSRatio {
   private static inline var TARGET_FPS:Int = 60;
 
   public var ratio(default, null):Float;
-  private var stage:Stage;
   private var lastFrameTimestamp:Int;
 
   private function new () {
-    stage = Starling.current.stage;
     lastFrameTimestamp = getTimer();
-    stage.addEventListener(EnterFrameEvent.ENTER_FRAME, setRatio);
   }
 
-  private function setRatio(e:EnterFrameEvent):Void {
+  public function update():Void {
     var elapsedTimeSinceLastFrame:Int = getTimer() - lastFrameTimestamp;
     ratio = elapsedTimeSinceLastFrame / (FPSRatio.ONE_SECOND / FPSRatio.TARGET_FPS);
     lastFrameTimestamp = getTimer();

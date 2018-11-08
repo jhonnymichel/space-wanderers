@@ -2,7 +2,7 @@ package objects.ui;
 
 import starling.display.Sprite;
 import starling.display.Quad;
-import openfl.geom.Point;
+import openfl.geom.Rectangle;
 import starling.utils.Color;
 import objects.camera.ICameraTarget;
 import objects.camera.ICameraEnvironment;
@@ -27,7 +27,7 @@ class Minimap extends Sprite {
   }
 
   public function update():Void {
-    var position:Point = heroObject.getPosition();
+    var position:Rectangle = heroObject.getBoundaries();
     var mapSize = map.getBoundaries();
     var proportionX = playableWidth / mapSize.width;
     var proportionY = playableHeight / mapSize.height;

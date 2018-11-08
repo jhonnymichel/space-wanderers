@@ -1,7 +1,7 @@
 package objects.camera;
 
-import openfl.geom.Point;
+import openfl.geom.Rectangle;
 
 interface ICameraTarget {
-  public function getPosition():Point;
+  public function getBoundaries():Rectangle;
 }

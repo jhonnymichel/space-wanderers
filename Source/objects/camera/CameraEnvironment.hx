@@ -3,6 +3,7 @@ package objects.camera;
 import openfl.geom.Point;
 import openfl.geom.Rectangle;
 import starling.display.Sprite;
+import objects.core.FPSRatio;
 import objects.parallax.ParallaxManager;
 
 class CameraEnvironment extends Sprite implements ICameraEnvironment {
@@ -48,8 +49,8 @@ class CameraEnvironment extends Sprite implements ICameraEnvironment {
   }
 
   public function setOffset(offset:Point):Void {
-    x += offset.x;
-    y += offset.y;
+    x += offset.x * FPSRatio.instance.ratio;
+    y += offset.y * FPSRatio.instance.ratio;
     adjustTrespassing();
     parallaxes.update(getBoundaries());
   }

@@ -12,6 +12,13 @@ class Camera {
     _target = target;
   }
 
+  public function switchTarget(target:ICameraTarget, skipUpdate:Bool = false):Void {
+    _target = target;
+    if (!skipUpdate) {
+      update();
+    }
+  }
+
   private function _getDefaultOffset():Point {
     var boundaries:Rectangle = _enviroment.getBoundaries();
     var stage:Rectangle = _enviroment.getStageBoundaries();
@@ -23,7 +30,7 @@ class Camera {
   }
 
   public function update():Void {
-    var targetPosition:Point = _target.getPosition();
+    var targetPosition:Rectangle = _target.getBoundaries();
     var defaultOffset:Point = _getDefaultOffset();
     var stage:Rectangle = _enviroment.getStageBoundaries();
     var currentPosition:Rectangle = _enviroment.getBoundaries();
