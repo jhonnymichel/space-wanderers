@@ -74,5 +74,4 @@ class Hero extends Sprite implements ICameraTarget {
   public function getBoundaries():Rectangle {
     return new Rectangle(x, y, width, height);
   }
-
 }

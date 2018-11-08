@@ -12,7 +12,6 @@ import openfl.Assets;
 import openfl.geom.Point;
 
 class Space extends Scene {
-
   private var borders:Array<Quad>;
   private var backgroundImage:Texture;
   private var clouds:Array<Image>;
@@ -115,7 +114,6 @@ class Space extends Scene {
       }
     }
 
-
     addChild(hero);
     stage.addChild(upperParallaxes);
 
@@ -126,5 +124,4 @@ class Space extends Scene {
     parallaxe.addChild(bg);
     parallaxes.add(parallaxe);
   }
-
 }

@@ -12,7 +12,6 @@ import objects.ui.Minimap;
 import objects.Hero;
 
 class Scene extends CameraEnvironment {
-
   private var background:Quad;
   public var minimap(default, null):Minimap;
   private var camera:Camera;

@@ -8,7 +8,6 @@ import objects.core.FPSRatio;
 import scenes.Space;
 
 class Game extends Sprite {
-
   private var circle:Hero;
   private var space:Space;
   private var movement:Float;
