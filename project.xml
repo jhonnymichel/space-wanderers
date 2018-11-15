@@ -4,6 +4,7 @@
 	<meta title="StarWanderers" package="com.sample.starwanderers" version="1.0.0" company="Company Name" />
 	<app main="Main" path="Export" file="StarWanderers" />
 	<window fps="60" width="1280" height="720"/>
+	<window if="html5" fps="60" width="null" height="null" resizable="true" background="null" />
 	<source path="Source" />
 
 	<haxelib name="openfl" />

@@ -4,14 +4,20 @@ import openfl.display.Sprite;
 import starling.events.Event in StarlingEvent;
 import openfl.events.Event;
 import starling.core.Starling;
-import Math;
+import scaling.ResizeByCropping;
+import scaling.IResizeHandler;
 
 class Main extends Sprite {
+
   private var starling:Starling;
   private var game:Game;
+  private var resizeHandler:IResizeHandler;
 
   public function new () {
     super();
+
+    resizeHandler = new ResizeByCropping();
+
     starling  = new Starling(Game, stage);
     starling.showStats = true;
     starling.start();
@@ -25,13 +31,7 @@ class Main extends Sprite {
   }
 
   private function setupScreen(e:Event = null):Void {
-    var proportion:Float;
-    starling.viewPort.width = stage.stageWidth;
-    starling.viewPort.height = stage.stageHeight;
-    proportion = starling.viewPort.width / starling.viewPort.height;
-    starling.stage.stageHeight = 720;
-    starling.stage.stageWidth = Math.round(720 * proportion);
-    starling.showStatsAt('left', 'top', 2 / starling.contentScaleFactor);
+    resizeHandler.handleResize(stage, starling);
     game.setupScreen();
   }
 }
