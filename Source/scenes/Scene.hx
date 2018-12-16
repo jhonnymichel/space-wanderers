@@ -8,6 +8,7 @@ import objects.camera.ICameraEnvironment;
 import objects.camera.CameraEnvironment;
 import objects.camera.ICameraTarget;
 import objects.camera.Camera;
+import objects.projectiles.Projectile;
 import objects.ui.Minimap;
 import objects.Hero;
 
@@ -16,6 +17,7 @@ class Scene extends CameraEnvironment {
   public var minimap(default, null):Minimap;
   private var camera:Camera;
   private var hero:Hero;
+  private var projectiles:Array<Projectile>;
 
   public function new(sceneWidth:Int, sceneHeight:Int, hero:Hero) {
     super(sceneWidth, sceneHeight);
@@ -29,10 +31,12 @@ class Scene extends CameraEnvironment {
     minimap = new Minimap(heroAsCameraTarget, thisAsCameraEnv);
 
     this.hero = hero;
+    projectiles = new Array<Projectile>();
+    hero.addEventListener(Hero.SHOOT, onHeroShot);
     addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
   }
 
-  public function update():Void {
+  public function update() {
     camera.update();
     minimap.update();
     if (hero.x < hero.height / 2) {
@@ -50,9 +54,54 @@ class Scene extends CameraEnvironment {
     if (hero.y > playableHeight - hero.height / 2) {
       hero.y = playableHeight - hero.height / 2;
     }
+
+    updateProjectiles();
   }
 
-  private function onAddedToStage(e:Event):Void {
+  private function updateProjectiles() {
+    for (projectile in projectiles) {
+      var shouldDispose:Bool = false;
+
+      projectile.update();
+
+      if (camera.isObjectFramed(projectile)) {
+        addChild(projectile);
+      } else {
+        removeChild(projectile);
+      }
+
+      if (projectile.x < projectile.height / 2) {
+        shouldDispose = true;
+      }
+
+      if (projectile.y < projectile.height / 2) {
+        shouldDispose = true;
+      }
+
+      if (projectile.x > playableWidth - projectile.height / 2) {
+        shouldDispose = true;
+      }
+
+      if (projectile.y > playableHeight - projectile.height / 2) {
+        shouldDispose = true;
+      }
+
+      if (shouldDispose) {
+        removeChild(projectile);
+        projectiles.splice(projectiles.indexOf(projectile), 1);
+      }
+    }
+  }
+
+  private function onHeroShot(e:Event) {
+    var projectile:Projectile = e.data;
+    projectile.x = hero.x + (hero.width / 2) * projectile.movementX;
+    projectile.y = hero.y + (hero.height / 2) * projectile.movementY;
+    projectiles.push(projectile);
+    addChild(projectile);
+  }
+
+  private function onAddedToStage(e:Event) {
     minimap.x = 0;
     minimap.y = stage.stageHeight;
     minimap.alignPivot('left',  'bottom');

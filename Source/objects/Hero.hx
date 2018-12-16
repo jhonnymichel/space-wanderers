@@ -9,8 +9,10 @@ import starling.events.KeyboardEvent;
 import openfl.ui.Keyboard;
 import objects.camera.ICameraTarget;
 import objects.core.FPSRatio;
+import objects.projectiles.Projectile;
 
 class Hero extends Sprite implements ICameraTarget {
+  public static var SHOOT:String = 'shoot';
   private var circle:Quad;
   private var accel:Float = 0;
   private var inertiaX:Float = 0;
@@ -56,6 +58,13 @@ class Hero extends Sprite implements ICameraTarget {
         movement[e.keyCode] = false;
         break;
       }
+    }
+
+    if (e.keyCode == Keyboard.SPACE) {
+      dispatchEventWith(Hero.SHOOT, true, new Projectile(
+        Math.cos(rotation - Hero.INITIAL_ROTATION),
+        Math.sin(rotation - Hero.INITIAL_ROTATION)
+      ));
     }
   }
 

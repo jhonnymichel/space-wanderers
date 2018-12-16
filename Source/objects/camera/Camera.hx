@@ -2,6 +2,7 @@ package objects.camera;
 
 import openfl.geom.Point;
 import openfl.geom.Rectangle;
+import starling.display.DisplayObject;
 
 class Camera {
   private var _enviroment:ICameraEnvironment;
@@ -17,6 +18,16 @@ class Camera {
     if (!skipUpdate) {
       update();
     }
+  }
+
+  public function isObjectFramed(object:DisplayObject):Bool {
+    var bounds:Rectangle = _enviroment.getBoundaries();
+    var stage:Rectangle = _enviroment.getStageBoundaries();
+    var objectX = object.x + object.width / 2;
+    var objectY = object.y + object.height / 2;
+    var isInsideX:Bool = bounds.x + object.x > 0 && bounds.x + objectX < stage.width;
+    var isInsideY:Bool = bounds.y + objectY > 0 && bounds.y + objectY < stage.height;
+    return isInsideX && isInsideY;
   }
 
   private function _getDefaultOffset():Point {
