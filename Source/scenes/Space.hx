@@ -5,7 +5,8 @@ import starling.events.Event;
 import starling.textures.Texture;
 import starling.utils.Color;
 import starling.display.Image;
-import objects.Hero;
+import objects.characters.Hero;
+import objects.characters.Enemy;
 import objects.parallax.Parallax;
 import objects.parallax.ParallaxManager;
 import openfl.Assets;
@@ -15,15 +16,20 @@ class Space extends Scene {
   private var borders:Array<Quad>;
   private var backgroundImage:Texture;
   private var clouds:Array<Image>;
+  private var enemies:Array<Enemy>;
   private var upperParallaxes:ParallaxManager;
 
-  public function new(hero:Hero) {
-    super(20000, 15000, hero);
+  public function new(hero:Hero, enemies:Array<Enemy>) {
+    super(20000, 15000, hero, enemies);
     borders = new Array();
+    this.enemies = enemies;
   }
 
   override public function update():Void {
     super.update();
+    for (enemy in enemies) {
+      enemy.update();
+    }
     upperParallaxes.update(getBoundaries());
   }
 
@@ -116,6 +122,9 @@ class Space extends Scene {
 
     addChild(hero);
     stage.addChild(upperParallaxes);
+    for (enemy in enemies) {
+      addChild(enemy);
+    }
 
     var parallaxe:Parallax = new Parallax(100, new Point(0, 0));
     var bg:Image = new Image(backgroundImage);

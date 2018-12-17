@@ -3,7 +3,9 @@ package;
 import starling.display.Sprite;
 import starling.events.Event;
 import starling.events.EnterFrameEvent;
-import objects.Hero;
+import objects.characters.Hero;
+import objects.camera.ICameraTarget;
+import objects.characters.Enemy;
 import objects.core.FPSRatio;
 import scenes.Space;
 
@@ -15,7 +17,9 @@ class Game extends Sprite {
   public function new() {
     super();
     circle = new Hero();
-    space = new Space(circle);
+    space = new Space(circle, [
+      new Enemy(cast(circle, ICameraTarget))
+    ]);
     addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
   }
 

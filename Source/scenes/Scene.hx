@@ -2,7 +2,6 @@ package scenes;
 
 import starling.display.Quad;
 import starling.events.Event;
-import starling.textures.Texture;
 import starling.utils.Color;
 import objects.camera.ICameraEnvironment;
 import objects.camera.CameraEnvironment;
@@ -10,7 +9,8 @@ import objects.camera.ICameraTarget;
 import objects.camera.Camera;
 import objects.projectiles.Projectile;
 import objects.ui.Minimap;
-import objects.Hero;
+import objects.characters.Hero;
+import objects.characters.Enemy;
 
 class Scene extends CameraEnvironment {
   private var background:Quad;
@@ -19,7 +19,7 @@ class Scene extends CameraEnvironment {
   private var hero:Hero;
   private var projectiles:Array<Projectile>;
 
-  public function new(sceneWidth:Int, sceneHeight:Int, hero:Hero) {
+  public function new(sceneWidth:Int, sceneHeight:Int, hero:Hero, Enemy:Array<Enemy>) {
     super(sceneWidth, sceneHeight);
     background = new Quad(sceneWidth, sceneHeight, Color.WHITE);
     background.alpha = 0;
