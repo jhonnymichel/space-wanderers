@@ -13,8 +13,8 @@ class Enemy extends Spaceship {
     super();
     this.target = target;
     movement[Keyboard.UP] = true;
-    x = 100;
-    y = 100;
+    x = 500;
+    y = 500;
     circle = new Quad(30, 100, Color.FUCHSIA);
     addChild(circle);
     alignPivot();
@@ -24,7 +24,18 @@ class Enemy extends Spaceship {
     var deltaX:Float = target.getBoundaries().x - x;
     var deltaY:Float = target.getBoundaries().y - y;
     var angleToLook:Float = Math.atan2(deltaY, deltaX);
-    rotation = angleToLook + INITIAL_ROTATION;
+    var distance:Float = Math.sqrt((deltaX * deltaX) + (deltaY * deltaY));
+    if (distance < 300) {
+      alpha = .3;
+      deltaX = target.getBoundaries().x + 600 - x;
+      deltaY = target.getBoundaries().y + 600 - y;
+      angleToLook = Math.atan2(deltaY, deltaX);
+    } else {
+      alpha = 1;
+      rotation = angleToLook + INITIAL_ROTATION;
+    }
+
+
     super.update();
   }
 }
