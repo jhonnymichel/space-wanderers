@@ -1,6 +1,7 @@
 package scenes;
 
 import starling.display.Quad;
+import starling.display.DisplayObject;
 import starling.events.Event;
 import starling.utils.Color;
 import objects.camera.ICameraEnvironment;
@@ -18,8 +19,9 @@ class Scene extends CameraEnvironment {
   private var camera:Camera;
   private var hero:Hero;
   private var projectiles:Array<Projectile>;
+  private var enemies:Array<Enemy>;
 
-  public function new(sceneWidth:Int, sceneHeight:Int, hero:Hero, Enemy:Array<Enemy>) {
+  public function new(sceneWidth:Int, sceneHeight:Int, hero:Hero, enemies:Array<Enemy>) {
     super(sceneWidth, sceneHeight);
     background = new Quad(sceneWidth, sceneHeight, Color.WHITE);
     background.alpha = 0;
@@ -31,8 +33,12 @@ class Scene extends CameraEnvironment {
     minimap = new Minimap(heroAsCameraTarget, thisAsCameraEnv);
 
     this.hero = hero;
+    this.enemies = enemies;
     projectiles = new Array<Projectile>();
-    hero.addEventListener(Hero.SHOOT, onHeroShot);
+    for (enemy in enemies) {
+      enemy.addEventListener(Hero.SHOOT, onShot);
+    }
+    hero.addEventListener(Hero.SHOOT, onShot);
     addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
   }
 
@@ -93,10 +99,11 @@ class Scene extends CameraEnvironment {
     }
   }
 
-  private function onHeroShot(e:Event) {
+  private function onShot(e:Event) {
     var projectile:Projectile = e.data;
-    projectile.x = hero.x + (hero.width / 2) * projectile.movementX;
-    projectile.y = hero.y + (hero.height / 2) * projectile.movementY;
+    var firer:DisplayObject = cast(e.target, DisplayObject);
+    projectile.x = firer.x + (firer.width / 2) * projectile.movementX;
+    projectile.y = firer.y + (firer.height / 2) * projectile.movementY;
     projectiles.push(projectile);
     addChild(projectile);
   }

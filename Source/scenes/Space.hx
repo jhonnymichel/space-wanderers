@@ -16,13 +16,11 @@ class Space extends Scene {
   private var borders:Array<Quad>;
   private var backgroundImage:Texture;
   private var clouds:Array<Image>;
-  private var enemies:Array<Enemy>;
   private var upperParallaxes:ParallaxManager;
 
   public function new(hero:Hero, enemies:Array<Enemy>) {
     super(20000, 15000, hero, enemies);
     borders = new Array();
-    this.enemies = enemies;
   }
 
   override public function update():Void {
